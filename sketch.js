@@ -5,7 +5,7 @@ let video;
 let temp;
 let detections = [];
 let threshold = 128;
-
+let matches;
 const sobelH = [[-1,0,1],[-2,0,2],[-1,0,1]]
 const sobelV = [[-1,-2,-1],[0,0,0],[1,2,1]]
 
@@ -124,12 +124,12 @@ function blur(matrix, edgeImg, matrixsize){
   
 
 async function draw() {
+  // background(0);
+    matches = 0;
+    
+    // let counts = blur(sobelV,temp,3);
 
-    temp = video.get();
-    let counts = blur(sobelV,temp,3);
-
-
-
+    tempVid = video.get(width/2, height/2, 300, 300);
 
 
     if (!readyToDetect) {
@@ -147,15 +147,28 @@ async function draw() {
           const resizedDetections = faceapi.resizeResults(detections, {width, height});
           resizedDetections.forEach(det => {
               const match = faceMatcher.findBestMatch(det.descriptor);
-              if(counts.brightCount >= 270000 && counts.brightCount <= 290000 && counts.darkCount >= 22000 && counts.darkCount <= 25000){
+              // console.log(`bright:${counts.brightCount} dark:${counts.darkCount}`);
+              // if(counts.brightCount >= 270000 && counts.brightCount <= 290000 && counts.darkCount >= 25000){
                 stroke(0, 255, 0);
                 strokeWeight(2);
                 noFill();
+                temp = video.get(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
+                let counts = blur(sobelV, temp, 3);
+                if(counts.darkCount >= 25000 && matches <= 1){
                 rect(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
                 textSize(20);
                 fill(255);
                 text(match.toString(), det.detection.box.x, det.detection.box.y);
-              }
+                // console.log(true);
+                matches += 1;
+                
+
+                }
+                else{
+                  console.log("fanuel is a bitch")
+                  // console.log(`bright:${counts.brightCount} dark:${counts.darkCount}`);
+                }
+              // }
           });
     }
 
