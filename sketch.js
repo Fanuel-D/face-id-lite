@@ -130,6 +130,7 @@ async function draw() {
     // let counts = blur(sobelV,temp,3);
 
     tempVid = video.get(width/2, height/2, 300, 300);
+    
 
 
     if (!readyToDetect) {
@@ -159,6 +160,7 @@ async function draw() {
                 textSize(20);
                 fill(255);
                 text(match.toString(), det.detection.box.x, det.detection.box.y);
+              
                 // console.log(true);
                 matches += 1;
                 
@@ -166,6 +168,7 @@ async function draw() {
                 }
                 else{
                   console.log("fanuel is a bitch")
+                  alert("Imposter! Go Away")
                   // console.log(`bright:${counts.brightCount} dark:${counts.darkCount}`);
                 }
               // }
