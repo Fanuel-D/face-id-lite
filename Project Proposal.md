@@ -1,4 +1,4 @@
-[#1. Introduction](#introduction)
+#[1. Introduction](#introduction)
 
 - **1.1 Overview of the Project**
     - Brief description of the project
