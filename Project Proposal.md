@@ -1,4 +1,4 @@
-**1. Introduction**
+[[#1. Introduction]]
 
 - **1.1 Overview of the Project**
     - Brief description of the project
@@ -7,7 +7,7 @@
     - Justify the need for the proposal
     - Relevance to current technologies or trends
 
-**2. Principles: Why the Problem is Important**
+[[#2. Principles Why the Problem is Important]]
 
 - **2.1 Definition of the Problem**
     - Detailed description of the problem
@@ -19,7 +19,7 @@
     - Preliminary research or case studies that suggest feasibility
     - Technologies or methodologies that will aid in solving the problem
 
-**3. Design: Choices and Trade-offs**
+[[#3. Design Choices and Trade-offs]]
 
 - **3.1 Design Overview**
     - General design approach or architecture
@@ -63,7 +63,7 @@
     - Supplementary materials or readings relevant to the project
 
 
-### **1. Introduction**
+### 1. Introduction
 
 #### 1.1 **Overview of the Project**
 
@@ -95,7 +95,7 @@ This limitation impacts a wide range of stakeholders including technology develo
 
 - Existing advancements in algorithmic research demonstrate that significant performance and efficiency improvements can be achieved through software innovations. Our tool utilizes face recognition algorithms that are designed to be exceptionally lightweight and efficient. These algorithms are capable of performing high-accuracy tasks with minimal computational resources, thereby proving that software solutions can effectively complement and extend the capabilities of existing hardware.
 
-### 3. Design: Choices and Trade-offs
+### 3. Design Choices and Trade-offs
 
 #### 3.1 Design Overview
 
