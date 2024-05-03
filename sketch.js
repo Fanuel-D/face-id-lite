@@ -8,6 +8,9 @@ let threshold = 128;
 let matches;
 const sobelH = [[-1,0,1],[-2,0,2],[-1,0,1]]
 const sobelV = [[-1,-2,-1],[0,0,0],[1,2,1]]
+let unknownCount = 0; //Counter for consecutive unknowns
+let knownCount = 0; //Counter for confirmations after a known face is detected
+let faceConfirmed = false;
 
 function setup() {
     createCanvas(640, 480);
@@ -156,14 +159,27 @@ async function draw() {
                 temp = video.get(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
                 let counts = blur(sobelV, temp, 3);
                 if(counts.darkCount >= 25000 && matches <= 1){
-                rect(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
-                textSize(20);
-                fill(255);
-                text(match.toString(), det.detection.box.x, det.detection.box.y);
-              
-                // console.log(true);
-                matches += 1;
+                  rect(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
+                  textSize(20);
+                  fill(255);
+                  text(match.toString(), det.detection.box.x, det.detection.box.y);
                 
+                  // console.log(true);
+                  matches += 1;
+                  if (match.label === 'unknown') {
+                    unknownCount++;
+                      if (unknownCount >= 5) {
+                        alert("A photo has been taken for additional security.");
+                        unknownCount = 0;
+                      }
+
+                  } else {
+                      unknownCount = 0; // Reset on valid detection
+                      knownCount++;
+                      if (knownCount > 2) { // After 3 confirmations, proceed
+                          window.location.href = 'animation.html?name=' + encodeURIComponent(match.label);
+                      }
+                  }
 
                 }
                 else{
