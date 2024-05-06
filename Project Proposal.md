@@ -31,7 +31,7 @@
     - Discussion of trade-offs for major design choices
     - How these trade-offs affect performance, usability, or scalability
 
-**4. Implementation: Realizing the Design**
+[[#4. Implementation: Realizing the Design]]
 
 - **4.1 Implementation Strategy**
     - Overview of the development methodology 
@@ -43,7 +43,7 @@
     - Potential obstacles in the implementation phase
     - Strategies to overcome these challenges
 
-**5. Evaluation: Assessing the System**
+[[#5. Evaluation: Assessing the System]]
 
 - **5.1 Evaluation Metrics**
     - Criteria for measuring the success of the project
@@ -51,15 +51,12 @@
 - **5.2 Testing and Validation**
     - Description of testing methodologies 
     - Plans for validation with real-world data or users
-- **5.3 Feedback and Iteration**
-    - How feedback will be gathered and incorporated
-    - Plans for iterative improvement based on evaluation results
 
-**7. References**
+[[#6. References]]
 
-- **7.1 Cited Works**
+- **6.1 Cited Works**
     - List of all academic and professional references used in the proposal
-- **7.2 Additional Resources**
+- **6.2 Additional Resources**
     - Supplementary materials or readings relevant to the project
 
 
@@ -116,6 +113,87 @@ The core of our system is built on `face-api.js`, a JavaScript module based on T
 - **Accuracy vs. Speed in Face Detection**: Choosing between SSD MobileNet and the Tiny Face Detector involves a trade-off between accuracy and speed. While SSD provides high accuracy, the Tiny Face Detector offers greater speed at a slight cost to detection precision, which is vital for applications requiring rapid processing on limited-resource devices.
     
 - **Complexity and Bug Management**: In our testing phase, we identified a potential issue where small 2D images close to the webcam could deceive the system. A proposed fix involved adjusting the webcam's face recognition window size to prevent such occurrences. However, due to the complexity and extensive code modifications required, we decided to accept this limitation in the current development cycle. This decision reflects a strategic trade-off between product stability and the developmental effort required for what was deemed a manageable risk.
+
+Based on your project description and requirements, here are detailed notes that can be expanded into a formal document section covering implementation aspects of using p5.js for recreating Face ID with machine learning models.
+
+### 4. Implementation: Realizing the Design
+
+#### 4.1 Implementation Strategy
+
+**Overview of the Development Methodology**
+- **Agile Development Approach**: The project was be executed using iterative development and frequent reassessment of plans.We continuously integrated feedback from testing phases to refine and improve the application. We divided our project into manageable segments known as sprints and this segmentation allowed us to focus on developing specific features or components in stages. Our planning sessions at the beginning of each sprint allowed us to incorporate newly learned concepts(e.g otsu thresholding) and techniques from our coursework.
+
+**Key Phases or Milestones in the Project Timeline**
+1. **Initial Setup and Configuration**:
+   - We setup the development environment and necessary libraries specifically p5.js for graphical interfaces and face-api.js for facial recognition capabilities, ensuring they were properly integrated into our project framework.. Additionally, we tested face-api.js to verify its compatibility with our setup and to ensure that the basic functionality, like loading and running pre-trained models was flawless.
+2. **Development of Face Detection Features**:
+   -  We integrated facial detection models, particularly the SSD (Single Shot Multibox Detector), Facial Landmarks, and Tiny Face Detector, into our application because of their speed and accuracy in detecting faces in various conditions
+   - We then implemented the face detection feature and carried out rigorous testing to validate the accuracy of the models under different scenarios, adjusting parameters like lighting as necessary to optimize detection rates.
+3. **Incorporation of Face Recognition and Landmark Detection**:
+   - We then expanded our application's capabilities to include face recognition and facial landmark detection by training the loaded models to identify individual faces and detect key facial landmarks
+4. **Implementation of Anti-Spoofing Measures**:
+   - We implemented the Otsu thresholding technique to effectively differentiate between real faces and photographs or masks after which we tested it       rigorously under different lighting scenarios to get a good approximate threshold for accuracy.
+5. **Final Integration and Testing**:
+   - We combined all previously developed features into a cohesive and fully functional application, ensuring seamless interaction between the different components.
+
+#### 4.2 Technologies Used
+
+**Languages, Frameworks, and Tools Used**
+- **JavaScript/HTML/CSS** for front-end development.
+- **p5.js** for creating graphical elements and interfacing with the HTML5 canvas.
+- **face-api.js** based on TensorFlow.js for implementing face detection, recognition, and landmark detection.
+- **TensorFlow.js**:A powerful library that allows for machine learning models to be run in the client's browser, leveraging WebGL for hardware-accelerated computations.
+
+**Justification for Technology Choices**
+- **p5.js**: Chosen for its simplicity and extensive community support, making it ideal for rapid prototyping of visual applications.
+- **face-api.js**: We chose this library due to its seamless integration with TensorFlow.js and its ability to utilize pre-trained neural network models for face detection, recognition, and landmark detection. These models are optimized for real-time processing on web platforms, which significantly reduces the need for high-end server-side hardware and accelerates development time.
+- **TensorFlow.js**: This library was selected to ensure all data processing could be handled locally, directly in the user’s browser. This not only enhances the responsiveness of the application but also greatly improves user privacy by not requiring any personal data to be sent over the internet. Moreover, TensorFlow.js's ability to utilize the client's GPU makes it exceptionally suitable for intensive computational tasks typically required in machine learning.
+
+The integration of these technologies allowed us to create a sophisticated facial recognition system that operates entirely within the web browser, minimizing latency and preserving privacy. The HTML/CSS framework laid out the visual and functional structure, p5.js added interactive and dynamic graphics, and face-api.js along with TensorFlow.js worked to process and analyze facial data in real-time.
+
+#### 4.3 Challenges and Solutions
+
+**Potential Obstacles in the Implementation Phase**
+- **Real-time Processing Performance**: One of the critical requirements of our application is the ability to perform facial detection and recognition in real-time. This demands high computational efficiency to ensure smooth operation across a variety of devices, including those with limited processing power.
+- **Accuracy in Differentiating Real vs. Fake Faces**: Developing a reliable method to distinguish between genuine human faces and photographs or digital replicas.
+
+**Strategies to Overcome These Challenges**
+- **Performance Optimization**: We used lightweight models like the Tiny Face Detector for its balance between performance and accuracy. This model is specifically optimized for scenarios requiring real-time processing, making it ideal for use in web applications.
+- **Advanced Anti-Spoofing Techniques**: The initial step in our anti-spoofing process involved applying Sobel operators to the input images obtained from the user. We used sobel for edge detection because they effectively highlight the edges within an image by calculating the gradient of the image intensity at each pixel. 
+- Following edge detection, we applied Otsu's thresholding technique, which is a global thresholding method that determines an optimal threshold value used for converting a grayscale image into a binary image. This method assumes that the image contains two classes of pixels (foreground and background) and calculates the optimum threshold separating those classes so that their combined spread (intra-class variance) is minimal.
+Otsu’s method allowed us to analyze the pixel intensity distributions effectively. This analysis helped us detect anomalies typical of non-living representations, such as the uniform, untextured surfaces of photographs and masks, which contrast with the varied textural characteristics of a real human face.
+
+
+### 5. Evaluation: Assessing the System
+
+Evaluating the effectiveness and robustness of our facial recognition system is crucial to ensure it meets both technical and user-centric goals. Here’s a detailed look at how we plan to assess our system throughout the development cycle:
+
+#### 5.1 Evaluation Metrics
+To measure the success of our facial recognition project effectively, we used a combination of quantitative and qualitative metrics:
+
+- **Accuracy**: The primary metric for our system is the accuracy of face detection and recognition. This is measured by the percentage of correctly identified instances versus the total cases tested under varied conditions.
+- **Speed and Latency**: Critical for real-time applications, the response time from when the face is presented to when it is recognized was measured. Our target is to keep this latency under 5-6 seconds to ensure a fluid user experience.
+- **False Acceptance and Rejection Rates (FAR and FRR)**: These metrics are standard for testing the security aspects of authentication systems. FAR measures the likelihood that the system incorrectly grants access to an unauthorized user, while FRR measures the rate at which authorized users are wrongly denied access.
+
+#### 5.2 Testing and Validation
+To ensure our system is robust and reliable, we employed the following testing methodologies:
+
+- **Controlled Lab Testing**: Initial phases using a predefined set of images and live interactions in a lab setting. This helped fine-tune the system under controlled conditions with varying lighting, face angles, and emotional expressions and get a better threshold.
+- **Field Testing**: To validate the system's performance in real-world scenarios, we conducted field testing where the system was be used by individuals from different demographic backgrounds in varied environmental settings. This was crucial to understand how different skin tones, facial features, and external conditions affect the system’s accuracy.
+
+### 6. References
+
+The development and assessment of our facial recognition system rely on a solid foundation of academic research, professional guidelines, and proven methodologies. Here’s a structured list of references and additional resources that have influenced and supported our project:
+
+#### 6.1 Cited Works
+
+
+#### 6.2 Additional Resources
+Supplementary materials or readings that provide broader context or deepen understanding related to our project:
+
+1. **[Pattern Recognition and Machine Learning" by Christopher M. Bishop](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf)** 
+2. **T[he viola-jones algorithm](https://www.baeldung.com/cs/viola-jones-algorithm)** 
+
 
 
 
