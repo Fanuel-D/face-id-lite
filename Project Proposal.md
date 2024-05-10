@@ -25,7 +25,7 @@
 
 #### 1.1 **Overview of the Project**
 
-This proposal outlines the development of an innovative face recognition tool designed to set new standards in security technology. Leveraging advanced algorithms, this tool not only identifies and matches faces with a pre-trained database but also uniquely differentiates between real human faces and 2D images. This tool is not only robust in functionality but also optimized for efficiency—it is fast, lightweight, and has minimal overhead, making it ideal for integration into devices with limited processing capabilities. The use of savvy filtering techniques makes our implementation one of a kind. 
+This proposal outlines the development of an innovative face recognition tool designed to set new standards in security technology. Leveraging advanced algorithms, this tool not only identifies and matches faces with a pre-trained database but also uniquely differentiates between real human faces and 2D images. This tool is moderately robust in functionality but also optimized for efficiency—it is fast, lightweight, and has minimal overhead, making it ideal for integration into devices with limited processing capabilities. The use of savvy filtering techniques makes our implementation one of a kind. 
 
 To demonstrate the capabilities of our efficient face recognition algorithms, we have developed a simple user interface that allows system login through face ID verification. Once authenticated, users can access a unique piece of art rendered using advanced shader techniques(keeping up with our efficient algorithms trend), rather than traditional p5.js implementations. This approach not only highlights the system's ease of use but also showcases its integration with cutting-edge graphics technology.
 
