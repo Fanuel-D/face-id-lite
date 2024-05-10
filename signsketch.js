@@ -31,8 +31,9 @@ function keyPressed() {
     if (key === 's' || key === 'S'){
         if (input.value().trim().length <= 0) { 
         alert("Please enter a valid value for name")
-         // This saves the current canvas as an image
+         
         }else{
+            // This saves the current canvas as an image
             saveCanvas(canvas, input.value().trim(), 'png');
             }
         }
