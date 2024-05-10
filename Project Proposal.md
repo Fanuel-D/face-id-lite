@@ -121,8 +121,6 @@ The integration of these technologies allowed us to create a sophisticated facia
 **Strategies to Overcome These Challenges**
 - **Performance Optimization**: We used lightweight models like the Tiny Face Detector for its balance between performance and accuracy. This model is specifically optimized for scenarios requiring real-time processing, making it ideal for use in web applications.
 - **Advanced Anti-Spoofing Techniques**: The initial step in our anti-spoofing process involved applying Sobel operators to the input images obtained from the user. We used sobel for edge detection because they effectively highlight the edges within an image by calculating the gradient of the image intensity at each pixel. 
-- Following edge detection, we applied Otsu's thresholding technique, which is a global thresholding method that determines an optimal threshold value used for converting a grayscale image into a binary image. This method assumes that the image contains two classes of pixels (foreground and background) and calculates the optimum threshold separating those classes so that their combined spread (intra-class variance) is minimal.
-Otsu’s method allowed us to analyze the pixel intensity distributions effectively. This analysis helped us detect anomalies typical of non-living representations, such as the uniform, untextured surfaces of photographs and masks, which contrast with the varied textural characteristics of a real human face.
 
 
 ### 5. Evaluation: Assessing the System
