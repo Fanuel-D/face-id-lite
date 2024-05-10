@@ -82,7 +82,7 @@ Based on your project description and requirements, here are detailed notes that
 #### 4.1 Implementation Strategy
 
 **Overview of the Development Methodology**
-- **Agile Development Approach**: The project was be executed using iterative development and frequent reassessment of plans.We continuously integrated feedback from testing phases to refine and improve the application. We divided our project into manageable segments known as sprints and this segmentation allowed us to focus on developing specific features or components in stages. Our planning sessions at the beginning of each sprint allowed us to incorporate newly learned concepts(e.g otsu thresholding) and techniques from our coursework.
+- **Agile Development Approach**: The project was be executed using iterative development and frequent reassessment of plans.We continuously integrated feedback from testing phases to refine and improve the application. We divided our project into manageable segments known as sprints and this segmentation allowed us to focus on developing specific features or components in stages. Our planning sessions at the beginning of each sprint allowed us to incorporate newly learned concepts and techniques from our coursework.
 
 **Key Phases or Milestones in the Project Timeline**
 1. **Initial Setup and Configuration**:
