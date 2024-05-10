@@ -72,7 +72,7 @@ function windowResized() {
 function mousePressed() {
     showAnimation = !showAnimation;
     if (!showAnimation) {
-        // Reset fireworks generation when switching to text and fireworks view
+        //Resets fireworks generation when switching to text and fireworks view
         frameSinceLastFirework = fireworkInterval; // Immediate firework on switch
       }
 }
@@ -87,7 +87,7 @@ function updateFireworks() {
     }
   }
 
-  // Define a simple Firework class using p5.js
+  //Defines a simple Firework class using p5.js
   class Firework {
     constructor(x, y) {
       this.position = createVector(x - width / 2, y - height / 2);
