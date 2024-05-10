@@ -56,71 +56,51 @@ async function initFaceMatcher() {
 
 
 
-function convolution(x, y, matrix, matrixsize, img) {
-    let rtotal = 0.0;
-    let gtotal = 0.0;
-    let btotal = 0.0;
-    const offset = Math.floor(matrixsize / 2);
-    for (let i = 0; i < matrixsize; i++) {
-      for (let j = 0; j < matrixsize; j++) {
-        // What pixel are we testing
-        const xloc = x + i - offset;
-        const yloc = y + j - offset;
-        let loc = (xloc + img.width * yloc) * 4;
+function verticalsobel(img){
+  let ypos;
+  let xpos;
+  let brightCount = 0;
+  let darkCount = 0;
   
-        // Make sure we haven't walked off our image, we could do better here
-        loc = constrain(loc, 0, img.pixels.length - 1);
-  
-        // Calculate the convolution
-        // retrieve RGB values
-        rtotal += img.pixels[loc] * matrix[i][j];
-        gtotal += img.pixels[loc + 1] * matrix[i][j];
-        btotal += img.pixels[loc + 2] * matrix[i][j];
-      }
-    }
-    // Make sure RGB is within range
-    rtotal = constrain(Math.abs(rtotal), 0, 255);
-    gtotal = constrain(Math.abs(gtotal), 0, 255);
-    btotal = constrain(Math.abs(btotal), 0, 255);
-  
-    // Return the resulting color
-    return color(rtotal, gtotal, btotal);
-  }
+  img.loadPixels();
 
+  let kernel = [
+    [-1, -2, -1],
+    [0, 0, 0],
+    [1, 2, 1]
+  ]
 
-function blur(matrix, edgeImg, matrixsize){
-    let brightCount = 0;
-    let darkCount = 0;
-    edgeImg.loadPixels();
-    for (let x = 1; x < edgeImg.width; x++) {
-      for (let y = 1; y < edgeImg.height; y++) {
-        let c = convolution(x, y, matrix, matrixsize, edgeImg);
-        let intensity = (red(c) + green(c) + blue(c)) / 3;
-  
-        // retrieve the RGBA values from c and update pixels()
-        let loc = (x + y * edgeImg.width) * 4;
+  for (let x = 1; x < img.width; x++){ //loop through the image
+    for (let y = 1; y < img.height; y++){
+      let sum = 0;
 
+      for (let kx = -1; kx <= 1; kx++){ //loop through the kernel
+        for (let ky = -1; ky <=1; ky++){ 
+           xpos = x + kx; //offset
+           ypos = y + ky;
 
-        if (intensity >= threshold) {
-                // Set to bright (white)
-          edgeImg.pixels[loc] = 255;
-          edgeImg.pixels[loc + 1] = 255;
-          edgeImg.pixels[loc + 2] = 255;
-          brightCount++;
-        } else {
-                // Set to dark (black)
-          edgeImg.pixels[loc] = 0;
-          edgeImg.pixels[loc + 1] = 0;
-          edgeImg.pixels[loc + 2] = 0;
-          darkCount++;
+          let val = img.pixels[(ypos*width+xpos)*4];
+
+          sum += kernel[(kx)+1][(ky)+1]*val;
+
         }
-        edgeImg.pixels[loc + 3] = 255; 
       }
-    }
+      img.pixels[(ypos*width+xpos)*4] = img.pixels[(ypos*width+xpos)*4 +1] = img.pixels[(ypos*width+xpos)*4 + 2] = abs(sum);
+      if (abs(sum) >= threshold) {
+        // Set to bright (white)
+        brightCount++;
+      } else {
+              // Set to dark (black)
+        darkCount++;
+      }
 
-    edgeImg.updatePixels();
-    return {brightCount, darkCount}
+    }
   }
+  img.updatePixels();
+
+  return {brightCount, darkCount};
+}
+
 
   
   
@@ -150,50 +130,37 @@ async function draw() {
       const detections = await faceapi.detectAllFaces(video.elt, new faceapi.SsdMobilenetv1Options())
           .withFaceLandmarks().withFaceDescriptors();
           
-      if (detections) {
+        if (detections) {
           const resizedDetections = faceapi.resizeResults(detections, {width, height});
           resizedDetections.forEach(det => {
               const match = faceMatcher.findBestMatch(det.descriptor);
-              // console.log(`bright:${counts.brightCount} dark:${counts.darkCount}`);
-              // if(counts.brightCount >= 270000 && counts.brightCount <= 290000 && counts.darkCount >= 25000){
-//                 stroke(0, 255, 0);
-//                 strokeWeight(2);
-//                 noFill();
                 temp = video.get(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
-                let counts = blur(sobelV, temp, 3);
-                if(counts.darkCount >= 25000 && matches <= 1){
-//                 rect(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
-//                 textSize(20);
-//                 fill(255);
-//                 text(match.toString(), det.detection.box.x, det.detection.box.y);
-              
-                    // console.log(true);
-                    matches += 1;
-                    if (match.label === 'unknown') {
-                        unknownCount++;
-                          if (unknownCount >= 5) {
-                            alert("A photo has been taken for additional security.");
-                            unknownCount = 0;
-                          }
-
-                      } else {
-                          unknownCount = 0; // Reset on valid detection
-                          knownCount++;
-                          if (knownCount > 2) { // After 3 confirmations, proceed
-                              window.location.href = 'animation.html?name=' + encodeURIComponent(match.label);
-                          }
+                let counts = verticalsobel(temp);
+                
+                if(counts.darkCount >= 210000 && counts.brightCount >= 80000 && matches <= 1){
+                  matches += 1;
+                  if (match.label === 'unknown') {
+                    unknownCount++;
+                      if (unknownCount >= 5) {
+                        alert("A photo has been taken for additional security.");
+                        unknownCount = 0;
                       }
 
+                  } else {
+                      unknownCount = 0; //Reset on valid detection
+                      knownCount++;
+                      if (knownCount > 2) { // After 3 confirmations, proceed
+                          window.location.href = 'animation.html?name=' + encodeURIComponent(match.label);
+                      }
+                  }
 
-                    }
-                else{
-                  console.log("fanuel is a bitch")
-                  alert("Imposter! Go Away")
-                  // console.log(`bright:${counts.brightCount} dark:${counts.darkCount}`);
                 }
-              // }
+                else{
+                  alert("Imposter! Go Away")
+                }
           });
-    }
+      }
+    
 
     }
     
