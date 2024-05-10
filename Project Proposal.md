@@ -51,7 +51,7 @@ This limitation impacts a wide range of stakeholders including technology develo
 
 - **Preliminary Research or Case Studies that Suggest Feasibility:** There are research studies that have explored the use of convolutional neural networks (CNNs) and edge detection techniques for differentiating between real faces and 2D pictures in the context of face liveness detection. One such study optimized deep CNN architectures for face liveness detection by enhancing the edges and surface texture of the image through nonlinear diffusion techniques. The diffused image was then processed by the CNN to identify and classify the features as real or fake, achieving high accuracy on the NUAA Photograph Impostor dataset​. 
 
-- Existing advancements in algorithmic research demonstrate that significant performance and efficiency improvements can be achieved through software innovations. Our tool utilizes face recognition algorithms that are designed to be exceptionally lightweight and efficient. These algorithms are capable of performing high-accuracy tasks with minimal computational resources, thereby proving that software solutions can effectively complement and extend the capabilities of existing hardware.
+- Existing advancements in algorithmic research demonstrate that significant performance and efficiency improvements can be achieved through software innovations. Our tool utilizes face recognition algorithms that are designed to be exceptionally lightweight and efficient. These algorithms are capable of performing high-accuracy tasks with minimal computational resources, thereby proving that software solutions can effectively complement and extend the capabilities of existing hardware. ([Optimizing Deep CNN Architectures for Face Liveness Detection](https://www.mdpi.com/1099-4300/21/4/423))
 
 ### 3. Design Choices and Trade-offs
 
@@ -151,7 +151,9 @@ The development and assessment of our facial recognition system rely on a solid 
 Supplementary materials or readings that provide broader context or deepen understanding related to our project:
 
 1. **[Pattern Recognition and Machine Learning" by Christopher M. Bishop](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf)** 
-2. **T[he viola-jones algorithm](https://www.baeldung.com/cs/viola-jones-algorithm)** 
+2. **[The viola-jones algorithm](https://www.baeldung.com/cs/viola-jones-algorithm)** 
+3. **[Optimizing Deep CNN Architectures for Face Liveness Detection](https://www.mdpi.com/1099-4300/21/4/423)**
+
 
 
 
