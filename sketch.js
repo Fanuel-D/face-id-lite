@@ -13,9 +13,9 @@ let knownCount = 0; //Counter for confirmations after a known face is detected
 let faceConfirmed = false;
 
 function setup() {
-    createCanvas(640, 480);
+    createCanvas(windowWidth, windowHeight);
     video = createCapture(VIDEO);
-    video.size(width, height);
+    video.size(640, 480);
     video.hide();
 
     Promise.all([
@@ -131,6 +131,10 @@ async function draw() {
     matches = 0;
     
     // let counts = blur(sobelV,temp,3);
+    let x = (width - video.width) / 2;
+    let y = (height - video.height) / 2;
+
+    image(video, x, y, video.width, video.height);
 
     tempVid = video.get(width/2, height/2, 300, 300);
     
@@ -153,16 +157,16 @@ async function draw() {
               const match = faceMatcher.findBestMatch(det.descriptor);
               // console.log(`bright:${counts.brightCount} dark:${counts.darkCount}`);
               // if(counts.brightCount >= 270000 && counts.brightCount <= 290000 && counts.darkCount >= 25000){
-                stroke(0, 255, 0);
-                strokeWeight(2);
-                noFill();
+                // stroke(0, 255, 0);
+                // strokeWeight(2);
+                // noFill();
                 temp = video.get(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
                 let counts = blur(sobelV, temp, 3);
                 if(counts.darkCount >= 25000 && matches <= 1){
-                  rect(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
-                  textSize(20);
-                  fill(255);
-                  text(match.toString(), det.detection.box.x, det.detection.box.y);
+                  // rect(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
+                  // textSize(20);
+                  // fill(255);
+                  // text(match.toString(), det.detection.box.x, det.detection.box.y);
                 
                   // console.log(true);
                   matches += 1;
