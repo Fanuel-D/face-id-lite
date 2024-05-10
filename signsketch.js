@@ -9,6 +9,8 @@ function setup() {
     video.hide();
     input = createInput('');
     input.position(20, 65); // Position it just below the canvas
+    input.size(200, 30);
+    input.attribute('placeholder', 'Enter your name here');
 }
 
 function draw() {
