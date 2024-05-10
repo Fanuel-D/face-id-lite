@@ -1,63 +1,24 @@
-[1. Introduction](#1.-introduction)
-
-- **1.1 Overview of the Project**
-    - Brief description of the project
-    - Key goals and objectives
-- **1.2 Importance of the Proposal**
-    - Justify the need for the proposal
-    - Relevance to current technologies or trends
-
-[[#2. Principles Why the Problem is Important]]
-
-- **2.1 Definition of the Problem**
-    - Detailed description of the problem
-    - Who is affected by the problem?
-- **2.2 Significance of Solving the Problem**
-    - Impacts on technology, society, or specific industries
-    - Benefits of addressing this issue
-- **2.3 Confidence in Solvability**
-    - Preliminary research or case studies that suggest feasibility
-    - Technologies or methodologies that will aid in solving the problem
-
-[[#3. Design Choices and Trade-offs]]
-
-- **3.1 Design Overview**
-    - General design approach or architecture
-    - Key components of the system
-- **3.2 Design Choices**
-    - Description of critical decisions in the design process
-    - Rationale behind selected approaches
-- **3.3 Trade-offs**
-    - Discussion of trade-offs for major design choices
-    - How these trade-offs affect performance, usability, or scalability
-
-[[#4. Implementation: Realizing the Design]]
-
-- **4.1 Implementation Strategy**
-    - Overview of the development methodology 
-    - Key phases or milestones in the project timeline
-- **4.2 Technologies Used**
-    - Languages, frameworks, and tools to be used
-    - Justification for technology choices
-- **4.3 Challenges and Solutions**
-    - Potential obstacles in the implementation phase
-    - Strategies to overcome these challenges
-
-[[#5. Evaluation: Assessing the System]]
-
-- **5.1 Evaluation Metrics**
-    - Criteria for measuring the success of the project
-    - Performance benchmarks or targets
-- **5.2 Testing and Validation**
-    - Description of testing methodologies 
-    - Plans for validation with real-world data or users
-
-[[#6. References]]
-
-- **6.1 Cited Works**
-    - List of all academic and professional references used in the proposal
-- **6.2 Additional Resources**
-    - Supplementary materials or readings relevant to the project
+- [1. Introduction](#1-introduction)
+  - [1.1 Overview of the Project](#11-overview-of-the-project)
+  - [1.2 Importance of the Proposal](#12-importance-of-the-proposal)
+- [2. Principles: Why the Problem is Important](#2-principles-why-the-problem-is-important)
+  - [2.1 Definition of the Problem](#21-definition-of-the-problem)
+  - [2.2 Significance of Solving the Problem](#22-significance-of-solving-the-problem)
+  - [2.3 Confidence in Solvability](#23-confidence-in-solvability)
+- [3. Design Choices and Trade-offs](#3-design-choices-and-trade-offs)
+  - [3.1 Design Overview](#31-design-overview)
+  - [3.2 Design Choices](#32-design-choices)
+  - [3.3 Trade-offs](#33-trade-offs)
+- [4. Implementation: Realizing the Design](#4-implementation-realizing-the-design)
+  - [4.1 Implementation Strategy](#41-implementation-strategy)
+  - [4.2 Technologies Used](#42-technologies-used)
+  - [4.3 Challenges and Solutions](#43-challenges-and-solutions)
+- [5. Evaluation: Assessing the System](#5-evaluation-assessing-the-system)
+  - [5.1 Evaluation Metrics](#51-evaluation-metrics)
+  - [5.2 Testing and Validation](#52-testing-and-validation)
+- [6. References](#6-references)
+  - [6.1 Cited Works](#61-cited-works)
+  - [6.2 Additional Resources](#62-additional-resources)
 
 
 ### 1. Introduction
