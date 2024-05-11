@@ -17,9 +17,7 @@ function setup() {
     video = createCapture(VIDEO);
     video.size(640, 480);
     video.hide();
-    
-    //Loads the required faceapi models from the specified path
-    //Once all models are loaded successfully, calls the initDetect function to start the detection process
+
     Promise.all([
         faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
         faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
@@ -29,31 +27,20 @@ function setup() {
     });// Ensure all models are loaded before starting detection
 }
 
-
-/**
- * Initializes the face detection system by logging a success message
- * and calling a function to set up the face matcher.
- */
 function initDetect() {
     console.log("Models loaded successfully!");
-    initFaceMatcher(); //Initializes the face matcher after confirming model load
+    initFaceMatcher();
 }
 
-/**
- * Asynchronously loads and processes labeled face images to create descriptors
- * for each labeled individual. These descriptors are used to recognize faces.
- *
- * @returns {Promise<Array>} A promise that resolves with an array of labeled face descriptors.
- */
 async function loadLabeledImages() {
-  const labels = ["Fanuel","Maxwell","messi"]; 
+  const labels = ["Maxwell"]; 
   return Promise.all(
       labels.map(async label => {
-          const descriptions = [];//stores the face descriptors for each image
+          const descriptions = [];
           for (let i = 1; i <= 2; i++) {
-              const img = await faceapi.fetchImage(`/labels/${label}/${i}.png`);//Fetches an image from the local server
+              const img = await faceapi.fetchImage(`/labels/${label}/${i}.png`);
               const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
-              descriptions.push(detections.descriptor);//Stores the descriptor in an array
+              descriptions.push(detections.descriptor);
           }
           return new faceapi.LabeledFaceDescriptors(label, descriptions);
       })
@@ -61,66 +48,79 @@ async function loadLabeledImages() {
 }
 
 async function initFaceMatcher() {
-    //Loads labeled images and compute face descriptors
-    //This awaits the completion of the loadLabeledImages function which loads and processes images
-    //to create descriptors for known faces
     const labeledFaceDescriptors = await loadLabeledImages();
-    //Creates a new FaceMatcher object with the labeled face descriptors and a match threshold of 0.6
-    //The FaceMatcher is used to identify which labeled descriptor best matches a new face descriptor
-    //A threshold of 0.6 means the face descriptors need to be at least 60% similar to be considered a match
-    
     faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
     console.log("Ready to recognize faces!");
     readyToDetect = true;  // Set a flag indicating that faceMatcher is ready
 }
 
 
-//finds vertical edges in the image
-function verticalsobel(img){
-  let ypos;
-  let xpos;
-  let brightCount = 0;
-  let darkCount = 0;
+
+function convolution(x, y, matrix, matrixsize, img) {
+    let rtotal = 0.0;
+    let gtotal = 0.0;
+    let btotal = 0.0;
+    const offset = Math.floor(matrixsize / 2);
+    for (let i = 0; i < matrixsize; i++) {
+      for (let j = 0; j < matrixsize; j++) {
+        // What pixel are we testing
+        const xloc = x + i - offset;
+        const yloc = y + j - offset;
+        let loc = (xloc + img.width * yloc) * 4;
   
-  img.loadPixels();
-
-  let kernel = [
-    [-1, -2, -1],
-    [0, 0, 0],
-    [1, 2, 1]
-  ]
-
-  for (let x = 1; x < img.width; x++){ //loop through the image
-    for (let y = 1; y < img.height; y++){
-      let sum = 0;
-
-      for (let kx = -1; kx <= 1; kx++){ //loop through the kernel
-        for (let ky = -1; ky <=1; ky++){ 
-           xpos = x + kx; //offset
-           ypos = y + ky;
-
-          let val = img.pixels[(ypos*width+xpos)*4];
-
-          sum += kernel[(kx)+1][(ky)+1]*val;
-
-        }
+        // Make sure we haven't walked off our image, we could do better here
+        loc = constrain(loc, 0, img.pixels.length - 1);
+  
+        // Calculate the convolution
+        // retrieve RGB values
+        rtotal += img.pixels[loc] * matrix[i][j];
+        gtotal += img.pixels[loc + 1] * matrix[i][j];
+        btotal += img.pixels[loc + 2] * matrix[i][j];
       }
-      img.pixels[(ypos*width+xpos)*4] = img.pixels[(ypos*width+xpos)*4 +1] = img.pixels[(ypos*width+xpos)*4 + 2] = abs(sum);
-      if (abs(sum) >= threshold) {
-        // Set to bright (white)
-        brightCount++;
-      } else {
-              // Set to dark (black)
-        darkCount++;
-      }
-
     }
+    // Make sure RGB is within range
+    rtotal = constrain(Math.abs(rtotal), 0, 255);
+    gtotal = constrain(Math.abs(gtotal), 0, 255);
+    btotal = constrain(Math.abs(btotal), 0, 255);
+  
+    // Return the resulting color
+    return color(rtotal, gtotal, btotal);
   }
-  img.updatePixels();
 
-  return {brightCount, darkCount};
-}
 
+function blur(matrix, edgeImg, matrixsize){
+    let brightCount = 0;
+    let darkCount = 0;
+    edgeImg.loadPixels();
+    for (let x = 1; x < edgeImg.width; x++) {
+      for (let y = 1; y < edgeImg.height; y++) {
+        let c = convolution(x, y, matrix, matrixsize, edgeImg);
+        let intensity = (red(c) + green(c) + blue(c)) / 3;
+  
+        // retrieve the RGBA values from c and update pixels()
+        let loc = (x + y * edgeImg.width) * 4;
+
+
+        if (intensity >= threshold) {
+                // Set to bright (white)
+          edgeImg.pixels[loc] = 255;
+          edgeImg.pixels[loc + 1] = 255;
+          edgeImg.pixels[loc + 2] = 255;
+          brightCount++;
+        } else {
+                // Set to dark (black)
+          edgeImg.pixels[loc] = 0;
+          edgeImg.pixels[loc + 1] = 0;
+          edgeImg.pixels[loc + 2] = 0;
+          darkCount++;
+        }
+        edgeImg.pixels[loc + 3] = 255; 
+      }
+    }
+
+    edgeImg.updatePixels();
+    return {brightCount, darkCount}
+  }
 
   
   
@@ -132,8 +132,8 @@ async function draw() {
     
     // let counts = blur(sobelV,temp,3);
 
-    let x = (width - video.width) / 2; //Centers the video on the canvas horizontally
-    let y = (height - video.height) / 2; //Centers the video on the canvas vertically
+    let x = (width - video.width) / 2;
+    let y = (height - video.height) / 2;
 
     image(video, x, y, video.width, video.height);
     
@@ -141,52 +141,53 @@ async function draw() {
 
     if (!readyToDetect) {
         console.log("Models not ready");
-        return;//Skips the rest of the function if models are not ready
+        return;
     }
 
 
     if (readyToDetect){
-        //Performs face detection on the video element, configuring it with SSD Mobilenet v1 options
+
       const detections = await faceapi.detectAllFaces(video.elt, new faceapi.SsdMobilenetv1Options())
           .withFaceLandmarks().withFaceDescriptors();
           
-        if (detections) {
+      if (detections) {
           const resizedDetections = faceapi.resizeResults(detections, {width, height});
           resizedDetections.forEach(det => {
-              const match = faceMatcher.findBestMatch(det.descriptor); //Finds the best match for each detected face descriptor
+              const match = faceMatcher.findBestMatch(det.descriptor);
                 temp = video.get(det.detection.box.x, det.detection.box.y, det.detection.box.width, det.detection.box.height);
-                let counts = verticalsobel(temp);//Applies sobel to the image
-                //Checks if the processed image meets certain criteria for dark and bright counts
-                if(counts.darkCount >= 210000 && counts.brightCount >= 80000 && matches <= 1){
-                  matches += 1;
-                  if (match.label === 'unknown') {
-                    unknownCount++;//Increments the count for unknown faces
-                        //If an unknown face is detected consecutively five times, take an action
-                      if (unknownCount >= 5) {
-                        alert("A photo has been taken for additional security.");
-                        unknownCount = 0;
+                let counts = blur(sobelV, temp, 3);
+                console.log(`bright:${counts.brightCount} dark:${counts.darkCount}`);
+                if(counts.darkCount >= 100000 && matches <= 1){
+                    matches += 1;
+                    if (match.label === 'unknown') {
+                        unknownCount++;
+                        if (unknownCount >= 5) {
+                          alert("A photo has been taken for additional security.");
+                          unknownCount = 0;
+                        }
+                        alert("Authentication Unsuccessful")
+                        
+                          
+                      } else {
+                          unknownCount = 0; // Reset on valid detection
+                          knownCount++;
+                          if (knownCount > 2) { // After 3 confirmations, proceed
+                              window.location.href = 'animation.html?name=' + encodeURIComponent(match.label);
+                          }
                       }
 
-                  } else {
-                      unknownCount = 0; //Reset on valid detection
-                      knownCount++;//If a known face is confirmed more than twice
-                            //Redirects to an animation page with the recognized person's name
-                      if (knownCount > 2) { // After 3 confirmations, proceed
-                          window.location.href = 'animation.html?name=' + encodeURIComponent(match.label);
-                      }
-                  }
 
-                }
+                    }
                 else{
                   alert("Imposter! Go Away")
+                  // console.log(`bright:${counts.brightCount} dark:${counts.darkCount}`);
                 }
+              // }
           });
-      }
-    
+    }
 
     }
     
   
 }
-
 
