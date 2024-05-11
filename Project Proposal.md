@@ -145,7 +145,9 @@ To ensure our system is robust and reliable, we employed the following testing m
 The development and assessment of our facial recognition system rely on a solid foundation of academic research, professional guidelines, and proven methodologies. Here’s a structured list of references and additional resources that have influenced and supported our project:
 
 #### 6.1 Cited Works
-
+https://pyimagesearch.com/2019/03/11/liveness-detection-with-opencv/
+https://github.com/computervisioneng/face-recognition-javascript-webcam-faceapi
+https://github.com/justadudewhohacks/face-api.js/tree/master/weights
 
 #### 6.2 Additional Resources
 Supplementary materials or readings that provide broader context or deepen understanding related to our project:
