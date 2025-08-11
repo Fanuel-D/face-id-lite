@@ -1,6 +1,5 @@
 - [1. Introduction](#1-introduction)
   - [1.1 Overview of the Project](#11-overview-of-the-project)
-  - [1.2 Importance of the Proposal](#12-importance-of-the-proposal)
 - [2. Principles: Why the Problem is Important](#2-principles-why-the-problem-is-important)
   - [2.1 Definition of the Problem](#21-definition-of-the-problem)
   - [2.2 Significance of Solving the Problem](#22-significance-of-solving-the-problem)
@@ -29,9 +28,6 @@ This proposal outlines the development of an innovative face recognition tool de
 
 To demonstrate the capabilities of our efficient face recognition algorithms, we have developed a simple user interface that allows system login through face ID verification. Once authenticated, users can access a unique piece of art rendered using advanced shader techniques(keeping up with our efficient algorithms trend), rather than traditional p5.js implementations. This approach not only highlights the system's ease of use but also showcases its integration with cutting-edge graphics technology.
 
-#### 1.2 Importance of the Proposal
-
-In the digital age, ensuring the authenticity of identity has become a paramount concern across various sectors, including personal electronics, finance, and national security.  The efficient nature of our algorithm ensures that it can be deployed in a wide range of applications without compromising system performance, responding to the increasing demand for more secure, sophisticated, and resource-efficient authentication methods that keep pace with both technological advancements and evolving security threats. The successful development of a proof of concept further underscores the viability and potential of this tool.
 
 ### 2. Principles: Why the Problem is Important
 
