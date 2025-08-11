@@ -1,6 +1,4 @@
-# project-fdana1-mkumbon1
-
-## FACE ID
+## FACE ID Lite
 
 ## How to Run the Project Locally
 
